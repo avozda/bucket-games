@@ -20,7 +20,7 @@ namespace bucket_games.Controllers
         }
 
         // GET: Hra
-        public async Task<IActionResult> Index(string HerníŽánr, string Vyhledávání)
+        public async Task<IActionResult> Index(string movieGenre, string Vyhledávání)
         {
 
             _context.Database.EnsureCreated();
@@ -37,9 +37,9 @@ namespace bucket_games.Controllers
                 hry = hry.Where(s => s.Název.Contains(Vyhledávání));
             }
 
-            if (!string.IsNullOrEmpty(HerníŽánr))
+            if (!string.IsNullOrEmpty(movieGenre))
             {
-                hry = hry.Where(x => x.Žánr == HerníŽánr);
+                hry = hry.Where(x => x.Žánr == movieGenre);
             }
 
             var movieGenreVM = new HraŽánrViewModel
