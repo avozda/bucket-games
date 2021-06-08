@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,6 +25,7 @@ namespace bucket_games.Models
         [Required(ErrorMessage = "Prosím vyplň žánr hry")]
         public string Žánr { get; set; }
 
+        [Column(TypeName = "decimal(18, 2)")]
         [Required(ErrorMessage = "Prosím vyplň cenu hry")]
         public decimal Cena { get; set; }
     }

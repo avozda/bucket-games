@@ -19,14 +19,39 @@ namespace bucket_games.Controllers
             _context = context;
         }
 
-        // GET: Hras
-        public async Task<IActionResult> Index()
+        // GET: Hra
+        public async Task<IActionResult> Index(string HerníŽánr, string Vyhledávání)
         {
+
             _context.Database.EnsureCreated();
-            return View(await _context.Hra.ToListAsync());
+
+            IQueryable<string> genreQuery = from m in _context.Hra
+                                            orderby m.Žánr
+                                            select m.Žánr;
+
+            var hry = from m in _context.Hra
+                         select m;
+
+            if (!string.IsNullOrEmpty(Vyhledávání))
+            {
+                hry = hry.Where(s => s.Název.Contains(Vyhledávání));
+            }
+
+            if (!string.IsNullOrEmpty(HerníŽánr))
+            {
+                hry = hry.Where(x => x.Žánr == HerníŽánr);
+            }
+
+            var movieGenreVM = new HraŽánrViewModel
+            {
+                Žánry = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Hry = await hry.ToListAsync()
+            };
+
+            return View(movieGenreVM);
         }
 
-        // GET: Hras/Details/5
+        // GET: Hra/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,13 +69,13 @@ namespace bucket_games.Controllers
             return View(hra);
         }
 
-        // GET: Hras/Create  
+        // GET: Hra/Create  
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Hras/Create
+        // POST: Hra/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -66,7 +91,7 @@ namespace bucket_games.Controllers
             return View(hra);
         }
 
-        // GET: Hras/Edit/5
+        // GET: Hra/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -82,7 +107,7 @@ namespace bucket_games.Controllers
             return View(hra);
         }
 
-        // POST: Hras/Edit/5
+        // POST: Hra/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -117,7 +142,7 @@ namespace bucket_games.Controllers
             return View(hra);
         }
 
-        // GET: Hras/Delete/5
+        // GET: Hra/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,7 +160,7 @@ namespace bucket_games.Controllers
             return View(hra);
         }
 
-        // POST: Hras/Delete/5
+        // POST: Hra/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
