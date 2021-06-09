@@ -3,16 +3,17 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace bucket_games.Models
 {
     public class Hra
-    {
+    {          
         [Key]
         public int Id { get; set; }
 
-        [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$")]
         [Required(ErrorMessage = "Prosím vyplň název hry")]
         [Display(Name = "Název hry")]
         [StringLength(100)]
@@ -24,7 +25,6 @@ namespace bucket_games.Models
         [DisplayFormat(DataFormatString = "{0:dd. MM. yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Datum { get; set; }
 
-        [RegularExpression(@"^[A-Z]+[a-zA-Z\s]*$")]
         [Required(ErrorMessage = "Prosím vyplň žánr hry")]
         public string Žánr { get; set; }
 
@@ -32,5 +32,9 @@ namespace bucket_games.Models
         [Required(ErrorMessage = "Prosím vyplň cenu hry")]
         [DataType(DataType.Currency)]
         public decimal Cena { get; set; }
+
+        [DataType(DataType.Upload)]
+        [Required(ErrorMessage = "Prosím nahraj fotku hry")]
+        public string Fotka { get; set; }
     }
 }

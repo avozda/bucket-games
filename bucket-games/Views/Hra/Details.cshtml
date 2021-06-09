@@ -1,42 +1,42 @@
 ﻿@model bucket_games.Models.Hra
 
 @{
-    ViewData["Title"] = "Details";
+	ViewData["Title"] = @Html.DisplayFor(model => model.Název);
 }
 
-<h1>Details</h1>
+<h1>@Html.DisplayFor(model => model.Název)</h1>
 
 <div>
-    <h4>Hra</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Název)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Název)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Datum)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Datum)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Žánr)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Žánr)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cena)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cena)
-        </dd>
-    </dl>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Datum)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Datum)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Žánr)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Žánr)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Cena)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Cena)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Fotka)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Fotka)
+		</dd>
+	</dl>
 </div>
+<img src="https://igamers.cz/wp-content/uploads/2020/09/among_us_crew_mate_psss.jpg" alt="@Html.DisplayFor(model => model.Název)" style="width:333px; height:333px"/>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+	<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+	<a asp-action="Index">Back to List</a>
 </div>

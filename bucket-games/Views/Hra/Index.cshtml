@@ -35,31 +35,37 @@
 			<th>
 				@Html.DisplayNameFor(model => model.Hry[0].Cena)
 			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Hry[0].Fotka)
+			</th>
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach (var item in Model.Hry)
 		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Název)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Datum)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Žánr)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Cena)
-				</td>
-				<td>
-					<a asp-action="Edit" asp-route-id="@item.Id">Upravit</a> |
-					<a asp-action="Details" asp-route-id="@item.Id">Detail</a> |
-					<a asp-action="Delete" asp-route-id="@item.Id">Smazat</a>
-				</td>
-			</tr>
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Název)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Datum)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Žánr)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Cena)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Fotka)
+			</td>
+			<td>
+				<a asp-action="Edit" asp-route-id="@item.Id">Upravit</a> |
+				<a asp-action="Details" asp-route-id="@item.Id">Detail</a> |
+				<a asp-action="Delete" asp-route-id="@item.Id">Smazat</a>
+			</td>
+		</tr>
 		}
 	</tbody>
 </table>

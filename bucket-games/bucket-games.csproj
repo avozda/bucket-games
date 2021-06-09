@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Shared\img\**" />
+    <Content Remove="Views\Shared\img\**" />
+    <EmbeddedResource Remove="Views\Shared\img\**" />
+    <None Remove="Views\Shared\img\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Views\Shared\img\" />
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Shared\img\" />
+    <Folder Include="UploadedFiles\" />
   </ItemGroup>
 </Project>

@@ -7,20 +7,25 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using bucket_games.Data;
 using bucket_games.Models;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Net.Http.Headers;
 
 namespace bucket_games.Controllers
 {
     public class HraController : Controller
     {
         private readonly bucket_gamesContext _context;
-
         public HraController(bucket_gamesContext context)
         {
             _context = context;
         }
 
+        public IHostingEnvironment _hostingEnvironment;
+
         // GET: Hra
-        public async Task<IActionResult> Index(string movieGenre, string Vyhledávání)
+        public async Task<IActionResult> Index(string HerníŽánr, string Vyhledávání)
         {
 
             _context.Database.EnsureCreated();
@@ -37,18 +42,46 @@ namespace bucket_games.Controllers
                 hry = hry.Where(s => s.Název.Contains(Vyhledávání));
             }
 
-            if (!string.IsNullOrEmpty(movieGenre))
+            if (!string.IsNullOrEmpty(HerníŽánr))
             {
-                hry = hry.Where(x => x.Žánr == movieGenre);
+                hry = hry.Where(x => x.Žánr == HerníŽánr);
             }
+
+            SelectList sl = new SelectList(await genreQuery.Distinct().ToListAsync());
+            List<Hra> l = hry.ToList();
+
+            Console.WriteLine("sl: " + sl);
+            Console.WriteLine("l: " + l);
 
             var movieGenreVM = new HraŽánrViewModel
             {
-                Žánry = new SelectList(await genreQuery.Distinct().ToListAsync()),
-                Hry = await hry.ToListAsync()
+                Žánry = sl,
+                Hry = l
             };
 
             return View(movieGenreVM);
+        }
+
+        [Obsolete]
+        [HttpPost]
+        public async Task<IActionResult> Index(IList<IFormFile> files)
+        {
+            foreach (var file in files)
+            {
+                string fileName = ContentDispositionHeaderValue
+                    .Parse(file.ContentDisposition)
+                    .FileName.ToString().Trim('"');
+
+                if (fileName.EndsWith(".txt"))
+                {
+                    var filePath = _hostingEnvironment.ContentRootPath + "\\wwwroot\\" + fileName;
+                    await using (Stream fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await file.CopyToAsync(fileStream);
+                    }
+                }
+            }
+            return RedirectToAction("Index");
         }
 
         // GET: Hra/Details/5
@@ -76,11 +109,9 @@ namespace bucket_games.Controllers
         }
 
         // POST: Hra/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Název,Datum,Žánr,Cena")] Hra hra)
+        public async Task<IActionResult> Create([Bind("Id,Název,Datum,Žánr,Cena,Fotka")] Hra hra)
         {
             if (ModelState.IsValid)
             {
@@ -108,11 +139,9 @@ namespace bucket_games.Controllers
         }
 
         // POST: Hra/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Název,Datum,Žánr,Cena")] Hra hra)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Název,Datum,Žánr,Cena,Fotka")] Hra hra)
         {
             if (id != hra.Id)
             {
@@ -169,6 +198,32 @@ namespace bucket_games.Controllers
             _context.Hra.Remove(hra);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public ActionResult UploadFiles(IFormFile file)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+
+                    //Method 2 Get file details from HttpPostedFileBase class    
+
+                    if (file != null)
+                    {
+                        string path = Path.Combine("~/UploadedFiles", Path.GetFileName(file.FileName));
+                        using Stream fileStream = new FileStream(path, FileMode.Create);
+                        file.CopyTo(fileStream);
+                    }
+                    ViewBag.FileStatus = "File uploaded successfully.";
+                }
+                catch (Exception)
+                {
+                    ViewBag.FileStatus = "Error while file uploading."; ;
+                }
+            }
+            return View("Index");
         }
 
         private bool HraExists(int id)
