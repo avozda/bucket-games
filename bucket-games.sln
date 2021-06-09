@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.810.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bucket-games", "bucket-games\bucket-games.csproj", "{CFAA4FC3-E30F-4242-9B36-95AE2B6B7171}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CFAA4FC3-E30F-4242-9B36-95AE2B6B7171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFAA4FC3-E30F-4242-9B36-95AE2B6B7171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFAA4FC3-E30F-4242-9B36-95AE2B6B7171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFAA4FC3-E30F-4242-9B36-95AE2B6B7171}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F7539C91-97A7-44B4-AA9D-F771BC57E83E}
+	EndGlobalSection
+EndGlobal
