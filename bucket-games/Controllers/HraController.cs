@@ -9,8 +9,7 @@ using bucket_games.Data;
 using bucket_games.Models;
 using System.IO;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace bucket_games.Controllers
 {
@@ -21,8 +20,6 @@ namespace bucket_games.Controllers
         {
             _context = context;
         }
-
-        public IHostingEnvironment _hostingEnvironment;
 
         // GET: Hra
         public async Task<IActionResult> Index(string HerníŽánr, string Vyhledávání)
@@ -62,28 +59,6 @@ namespace bucket_games.Controllers
             return View(movieGenreVM);
         }
 
-        [Obsolete]
-        [HttpPost]
-        public async Task<IActionResult> Index(IList<IFormFile> files)
-        {
-            foreach (var file in files)
-            {
-                string fileName = ContentDispositionHeaderValue
-                    .Parse(file.ContentDisposition)
-                    .FileName.ToString().Trim('"');
-
-                if (fileName.EndsWith(".txt"))
-                {
-                    var filePath = _hostingEnvironment.ContentRootPath + "\\wwwroot\\" + fileName;
-                    await using (Stream fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileStream);
-                    }
-                }
-            }
-            return RedirectToAction("Index");
-        }
-
         // GET: Hra/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -113,6 +88,7 @@ namespace bucket_games.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Název,Datum,Žánr,Cena,Fotka")] Hra hra)
         {
+#if DEBUG
             if (ModelState.IsValid)
             {
                 _context.Add(hra);
@@ -120,11 +96,15 @@ namespace bucket_games.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(hra);
+#else
+            return RedirectToAction("Index", "Hra");
+#endif
         }
 
         // GET: Hra/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+#if DEBUG
             if (id == null)
             {
                 return NotFound();
@@ -136,6 +116,9 @@ namespace bucket_games.Controllers
                 return NotFound();
             }
             return View(hra);
+#else
+            return RedirectToAction("Index", "Hra");
+#endif
         }
 
         // POST: Hra/Edit/5
@@ -143,6 +126,7 @@ namespace bucket_games.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Název,Datum,Žánr,Cena,Fotka")] Hra hra)
         {
+#if DEBUG
             if (id != hra.Id)
             {
                 return NotFound();
@@ -168,12 +152,16 @@ namespace bucket_games.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(hra);
+            return View(hra);                                   
+#else
+            return RedirectToAction("Index", "Hra");
+#endif
         }
 
         // GET: Hra/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+#if DEBUG
             if (id == null)
             {
                 return NotFound();
@@ -187,6 +175,9 @@ namespace bucket_games.Controllers
             }
 
             return View(hra);
+#else
+            return RedirectToAction("Index", "Hra");
+#endif
         }
 
         // POST: Hra/Delete/5
@@ -194,10 +185,14 @@ namespace bucket_games.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+#if DEBUG
             var hra = await _context.Hra.FindAsync(id);
             _context.Hra.Remove(hra);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+#else
+            return RedirectToAction("Index", "Hra");
+#endif
         }
 
         [HttpPost]
@@ -207,9 +202,6 @@ namespace bucket_games.Controllers
             {
                 try
                 {
-
-                    //Method 2 Get file details from HttpPostedFileBase class    
-
                     if (file != null)
                     {
                         string path = Path.Combine("~/UploadedFiles", Path.GetFileName(file.FileName));

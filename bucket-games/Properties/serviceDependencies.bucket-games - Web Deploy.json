@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/bucket-gamesdbserver/databases/bucket-games_db",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:bucket_gamesContext",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

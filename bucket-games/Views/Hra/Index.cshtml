@@ -35,10 +35,6 @@
 			<th>
 				@Html.DisplayNameFor(model => model.Hry[0].Cena)
 			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Hry[0].Fotka)
-			</th>
-			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -58,13 +54,15 @@
 				@Html.DisplayFor(modelItem => item.Cena)
 			</td>
 			<td>
-				@Html.DisplayFor(modelItem => item.Fotka)
+				<img src="@Html.DisplayFor(modelItem => item.Fotka)" alt="obrázek hry" style="height:44px; width:44px;">
 			</td>
-			<td>
-				<a asp-action="Edit" asp-route-id="@item.Id">Upravit</a> |
-				<a asp-action="Details" asp-route-id="@item.Id">Detail</a> |
-				<a asp-action="Delete" asp-route-id="@item.Id">Smazat</a>
-			</td>
+
+			<!--<td>
+		<a asp-action="Edit" asp-route-id="@item.Id">Upravit</a> |
+		<a asp-action="Details" asp-route-id="@item.Id">Detail</a> |
+		<a asp-action="Delete" asp-route-id="@item.Id">Smazat</a>
+	</td>-->
+
 		</tr>
 		}
 	</tbody>

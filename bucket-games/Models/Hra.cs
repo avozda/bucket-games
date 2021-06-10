@@ -33,8 +33,8 @@ namespace bucket_games.Models
         [DataType(DataType.Currency)]
         public decimal Cena { get; set; }
 
-        [DataType(DataType.Upload)]
-        [Required(ErrorMessage = "Prosím nahraj fotku hry")]
+        [DataType(DataType.ImageUrl)]
+        [Required(ErrorMessage = "Prosím nahraj odkaz fotku hry")]
         public string Fotka { get; set; }
     }
 }
