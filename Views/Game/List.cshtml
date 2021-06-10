@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = @Model.CurrentCategory;
+}
+
+
+<div>
+    <h2>@Model.CurrentCategory</h2>
+</div>
+
+
+@{
+
+    foreach (Game game in Model.Games) {
+    @Html.Partial("GamesSummary", game)
+    }
+}
