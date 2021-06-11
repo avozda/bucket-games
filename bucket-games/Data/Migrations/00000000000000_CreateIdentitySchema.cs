@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace bucket_games.Data.Migrations
+namespace bucket_soldier_games.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

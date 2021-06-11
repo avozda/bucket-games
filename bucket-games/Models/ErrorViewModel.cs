@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace bucket_games.Models
+namespace bucket_soldier_games.Models
 {
     public class ErrorViewModel
     {

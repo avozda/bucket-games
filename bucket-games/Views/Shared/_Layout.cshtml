@@ -3,50 +3,120 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Bucket games</title>
+    <title>@ViewData["Title"] - bucket_soldier_games</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bucket games</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-					<ul class="navbar-nav flex-grow-1">
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Domů</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Zásady ochrany osobních údajů</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Hra" asp-action="Index">Hry</a>
-						</li>
-					</ul>
-                </div>
+       
+
+        <nav>
+            <div class="menu-icon">
+                <span class="fas fa-bars"></span>
             </div>
+            <div class="logo">
+                <a  asp-area="" asp-controller="Home" asp-action="Index">Bucket Games</a>
+            </div>
+            <div class="nav-items">
+            
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a> </li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Privacy">About</a></li>
+
+                    <li class="dropdown">
+                        <a asp-controller="Game"
+                           asp-action="List"
+                           class="dropdown-toggle" data-toggle="dropdown">Games<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+
+
+                            <li>
+                                <a asp-controller="Game" asp-action="List"
+                                   asp-route-category="MultiPlayer">Multi Player</a>
+                            </li>
+
+                            <li class="divider"></li>
+                            <li>
+                                <a asp-controller="Game" asp-action="List"
+                                   asp-route-category="SinglePlayer">Single Player</a>
+                            </li>
+
+                            <li class="divider"></li>
+                            <li>
+                                <a asp-controller="Game" asp-action="List" asp-route-category="">View all</a>
+                            </li>
+                        </ul>
+                    </li>
+             
+            </div>
+            <ul class="cart">
+                @await Component.InvokeAsync("ShoppingCartSummary") 
+            </ul>
+            <div class="search-icon">
+                <span class="fas fa-search"></span>
+            </div>
+            <div class="cancel-icon">
+                <span class="fas fa-times"></span>
+            </div>
+            <form class="navbar-form navbar-right" asp-controller="Game" asp-action="Search" method="get">
+
+                <input type="text" class="search-data" placeholder="Search" required name="searchString" value="@ViewData["searchString"]">
+                <button type="submit" class="fas fa-search"></button>
+
+            </form>
+            <partial name="_LoginPartial" />
         </nav>
     </header>
-    <div class="container">
+ 
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - Bucket games - <a asp-area="" asp-controller="Home" asp-action="Privacy">Zásady ochrany osobních údajů</a>
-        </div>
-    </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
+
+
+    <!-- footer -->
+    <footer>
+        <div id="contact" class="footer">
+            <div class="copyright">
+                <div class="container">
+                    <p>© 2021 All Rights Reserved. Design By Bucket Games.</a></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end footer -->
+    <script>
+        const menuBtn = document.querySelector(".menu-icon span");
+        const searchBtn = document.querySelector(".search-icon");
+        const cancelBtn = document.querySelector(".cancel-icon");
+        const items = document.querySelector(".nav-items");
+        const form = document.querySelector("form");
+        menuBtn.onclick = () => {
+            items.classList.add("active");
+            menuBtn.classList.add("hide");
+            searchBtn.classList.add("hide");
+            cancelBtn.classList.add("show");
+        }
+        cancelBtn.onclick = () => {
+            items.classList.remove("active");
+            menuBtn.classList.remove("hide");
+            searchBtn.classList.remove("hide");
+            cancelBtn.classList.remove("show");
+            form.classList.remove("active");
+            cancelBtn.style.color = "#ff3d00";
+        }
+        searchBtn.onclick = () => {
+            form.classList.add("active");
+            searchBtn.classList.add("hide");
+            cancelBtn.classList.add("show");
+        }
+    </script>
 </body>
 </html>

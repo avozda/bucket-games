@@ -5,22 +5,30 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using bucket_games.Models;
+using bucket_soldier_games.Models;
+using bucket_soldier_games.ViewModels;
+using bucket_soldier_games.Interfaces;
 
-namespace bucket_games.Controllers
+namespace bucket_soldier_games.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly IGameRepository _gameRepository;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IGameRepository gameRepository)
         {
             _logger = logger;
+            _gameRepository = gameRepository;
         }
 
-        public IActionResult Index()
+        public ViewResult Index()
         {
-            return View();
+            GameListViewModel vm = new GameListViewModel();
+            vm.Games = _gameRepository.Games;
+            vm.CurrentCategory = "All Games";
+            return View(vm);
         }
 
         public IActionResult Privacy()
