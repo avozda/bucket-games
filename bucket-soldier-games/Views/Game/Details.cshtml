@@ -1,0 +1,28 @@
+﻿@model Game
+<div class="container">
+    <div class="container marginTop">
+        <div class="row">
+            <div class="detail">
+                <div class="text-center view overlay hm-white-slight">
+                    <img src="@Model.Img" class="img-fluid" alt="">
+                    <a href="#">
+                        <div class="mask waves-effect waves-light"></div>
+                    </a>
+                </div>
+                <div class="card-block">
+                    <!--Title-->
+                    <br />
+                    <h4 class="card-title">@Model.Title</h4>
+                    <!--Text-->
+                    <p class="card-text">@Model.LongDesc.</p>
+                    <p class="btn btn-group pull-right">
+                        <a asp-controller="Game" asp-action="List" class="btn btn-default">Show all games</a>
+                        <a class="btn btn-success tlacitko" id="cartButton" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-gameId="@Model.id">
+                            Add @Model.Title to cart
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
